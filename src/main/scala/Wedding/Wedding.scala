@@ -1,3 +1,5 @@
+package Wedding
+
 
 /** Wedding planning Project 👰🏽‍ ⛪️ 🧁 consolidates Cohort 2 Academy lessons * */
 

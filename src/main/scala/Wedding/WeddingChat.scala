@@ -1,4 +1,4 @@
-package Week1.Wedding
+package Wedding
 
 import scala.io.StdIn.readLine
 
