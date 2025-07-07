@@ -387,7 +387,8 @@ println(s"The veg guests are: ${vegeterianGuests}")
 //Thankyou notes
 //can I get a list of all the guests??
 
-
+//getOrFail
+//ZipWithIndex
 
 
 
