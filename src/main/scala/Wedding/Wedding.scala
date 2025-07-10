@@ -77,7 +77,7 @@ object WeddingPlan extends App { //Wk 2
   }
 
   println("Venues with church:") // List of venues with church //Gatsby & Quintessentially English Countryside chic
-  venuesWithChurch.foreach(theme => println(s"- ${theme.name}"))
+  venuesWithChurch.foreach(theme => println(s"-- ${theme.name}"))
 
 
 
@@ -96,7 +96,7 @@ object WeddingPlan extends App { //Wk 2
   val filterForTableOxfordStreet: Map[Int, String] = tableNames.filter(num => num._1 == 1)
   println(filterForTableOxfordStreet) //HashMap(1 -> Oxford Street)
 
-  /** We have more guests! add another table number 11 called "Pimlico" * */
+  /** We have more guests! add another table number 11 called "Pimlico" **/
   tableNames += (11 -> "Pimlico")
   println(tableNames) //shows 11 table names now not 10
 
