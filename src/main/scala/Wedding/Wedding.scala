@@ -21,7 +21,7 @@ object WeddingPlan extends App { //Wk 2
   val bridesmaids: Seq[String] = Seq("Sarah", "Lisa", "Victoria") //Wk 1
 
   /** Countdown to the day⏱️ */
-  val weddingDate = LocalDate.of(2025, 11, 11)
+  val weddingDate = LocalDate.of(2026, 11, 11)
   val today = LocalDate.now()
   val daysUntilWedding = java.time.temporal.ChronoUnit.DAYS.between(today, weddingDate)
 
@@ -104,7 +104,7 @@ object WeddingPlan extends App { //Wk 2
     def name: String
   }
 
-  //All the flavours, toppers and decorations as case objects
+  //All the flavours, toppers and decorations as case objects at the top
     case object ProfitterolTower extends CakeOption {
       val name = "Profiterole Tower"
     }
@@ -166,6 +166,10 @@ case class WeddingCake(
     s"${flavour.name} with ${topper.name} covered in ${decoration.name} for the wedding of May & Tom!"
 }
 //Let's print something !
+println(listOfCakes)
+println(listOfTopper)
+println(listOfDecorations)
+//Add more here
 
   /** Refactored to the above to make it more type safety */
   //  val cakeFlavour = List("Profitterol Tower", "2 tier", "traditional 3 tier")
