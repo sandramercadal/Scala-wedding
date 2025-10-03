@@ -80,7 +80,6 @@ object WeddingPlan extends App { //Wk 2
   venuesWithChurch.foreach(theme => println(s"-- ${theme.name}"))
 
 
-
   val tableNames: Map[Int, String] = Map( //Wk 1 + mutable Map without making tableNames a var
     1 -> "Oxford Street",
     2 -> "Victoria",
@@ -96,25 +95,92 @@ object WeddingPlan extends App { //Wk 2
   val filterForTableOxfordStreet: Map[Int, String] = tableNames.filter(num => num._1 == 1)
   println(filterForTableOxfordStreet) //HashMap(1 -> Oxford Street)
 
-  /** We have more guests! add another table number 11 called "Pimlico" **/
+  /** We have more guests! add another table number 11 called "Pimlico" * */
   tableNames += (11 -> "Pimlico")
   println(tableNames) //shows 11 table names now not 10
 
 
+  sealed trait CakeOption {
+    def name: String
+  }
 
-  val cakeFlavour = List("Profitterol Tower", "2 tier", "traditional 3 tier")
-  val cakeTopper = List("Edible flowers", "Acrylic Butterflies", "Rice paper flowers")
-  val cakeDecoration = List("Sprinkles", "Fresh fruit", "chocolate balls", "chocolate and cream")
+  //All the flavours, toppers and decorations as case objects
+    case object ProfitterolTower extends CakeOption {
+      val name = "Profiterole Tower"
+    }
 
-  val cakePlanning = for { //for comp Wk 1
-    style <- cakeFlavour
-    topOfTheCake <- cakeTopper
-    decoration <- cakeDecoration
-  } yield s"${style} with ${topOfTheCake} covered in ${decoration} for the wedding!"
+    case object TwoTier extends CakeOption {
+      val name = "2 tier"
+    }
 
-  println(cakePlanning(3)) //a combination
-  println("Here are your top 3 wedding cakes ideas:")
-  cakePlanning.take(3).foreach(println)
+    case object TraditionalThreeTier extends CakeOption {
+      val name = "Traditional 3 tier"
+    }
+
+    case object EdibleFlowers extends CakeOption {
+      val name = "Edible flowers"
+    }
+
+    case object AcrylicButterflies extends CakeOption {
+      val name = "Acrylic Butterflies"
+    }
+
+    case object RicePaperFlowers extends CakeOption {
+      val name = "Rice paper flowers"
+    }
+
+  case object Sprinkles extends CakeOption {
+    val name = "Sprinkles"
+  }
+
+  case object FreshFruit extends CakeOption {
+    val name = "Fresh fruit"
+  }
+
+  case object ChocolateBalls extends CakeOption {
+    val name = "chocolate balls"
+  }
+
+  case object ChocolateAndCream extends CakeOption {
+    val name = "chocolate and cream"
+  }
+
+    object CakeOption {
+      val cakeType: List[CakeOption] = List(ProfitterolTower, TwoTier, TraditionalThreeTier)
+      val toppers: List[CakeOption] = List(EdibleFlowers, AcrylicButterflies, RicePaperFlowers)
+      val decorations: List[CakeOption] = List(Sprinkles, FreshFruit, ChocolateBalls, ChocolateAndCream)
+    }
+
+  val listOfCakes: List[CakeOption] = List(ProfitterolTower, TwoTier, TraditionalThreeTier)
+  val listOfTopper: List[CakeOption] = List(EdibleFlowers, AcrylicButterflies, RicePaperFlowers)
+  val listOfDecorations: List[CakeOption] = List(Sprinkles, FreshFruit, ChocolateBalls, ChocolateAndCream)
+
+
+// Case class to represent a complete cake configuration
+case class WeddingCake(
+                        flavour: CakeOption,
+                        topper: CakeOption,
+                        decoration: CakeOption
+                      ) {
+  def description: String =
+    s"${flavour.name} with ${topper.name} covered in ${decoration.name} for the wedding of May & Tom!"
+}
+//Let's print something !
+
+  /** Refactored to the above to make it more type safety */
+  //  val cakeFlavour = List("Profitterol Tower", "2 tier", "traditional 3 tier")
+//  val cakeTopper = List("Edible flowers", "Acrylic Butterflies", "Rice paper flowers")
+//  val cakeDecoration = List("Sprinkles", "Fresh fruit", "chocolate balls", "chocolate and cream")
+//
+//  val cakePlanning = for { //for comp Wk 1
+//    style <- cakeFlavour
+//    topOfTheCake <- cakeTopper
+//    decoration <- cakeDecoration
+//  } yield s"${style} with ${topOfTheCake} covered in ${decoration} for the wedding!"
+//
+//  println(cakePlanning(3)) //a combination
+//  println("Here are your top 3 wedding cakes ideas:")
+//  cakePlanning.take(3).foreach(println)
 
 
 
