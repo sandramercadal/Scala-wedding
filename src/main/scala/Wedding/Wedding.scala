@@ -104,7 +104,7 @@ object WeddingPlan extends App { //Wk 2
     def name: String
   }
 
-  //All the flavours, toppers and decorations as case objects at the top
+  //All the flavours, toppers and decorations as case objects at the top, there's only one instance of each so they are case objects not case classes
     case object ProfitterolTower extends CakeOption {
       val name = "Profiterole Tower"
     }
@@ -145,31 +145,27 @@ object WeddingPlan extends App { //Wk 2
     val name = "chocolate and cream"
   }
 
+  //contains list of all poss cake types, toppers and decorations
     object CakeOption {
       val cakeType: List[CakeOption] = List(ProfitterolTower, TwoTier, TraditionalThreeTier)
       val toppers: List[CakeOption] = List(EdibleFlowers, AcrylicButterflies, RicePaperFlowers)
       val decorations: List[CakeOption] = List(Sprinkles, FreshFruit, ChocolateBalls, ChocolateAndCream)
     }
 
-  val listOfCakes: List[CakeOption] = List(ProfitterolTower, TwoTier, TraditionalThreeTier)
-  val listOfTopper: List[CakeOption] = List(EdibleFlowers, AcrylicButterflies, RicePaperFlowers)
-  val listOfDecorations: List[CakeOption] = List(Sprinkles, FreshFruit, ChocolateBalls, ChocolateAndCream)
-
 
 // Case class to represent a complete cake configuration
-case class WeddingCake(
+case class WeddingCakeOrder (
                         flavour: CakeOption,
                         topper: CakeOption,
                         decoration: CakeOption
-                      ) {
-  def description: String =
-    s"${flavour.name} with ${topper.name} covered in ${decoration.name} for the wedding of May & Tom!"
-}
-//Let's print something !
-println(listOfCakes)
-println(listOfTopper)
-println(listOfDecorations)
-//Add more here
+                      )
+
+  //Let's print something !
+
+
+//  def description: String =
+//    s"${flavour.name} with ${topper.name} covered in ${decoration.name} for the wedding of May & Tom!"
+
 
   /** Refactored to the above to make it more type safety */
   //  val cakeFlavour = List("Profitterol Tower", "2 tier", "traditional 3 tier")
