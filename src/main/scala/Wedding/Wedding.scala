@@ -11,6 +11,7 @@ import scala.util.{Failure, Random, Success}
 import java.time.{LocalDate, Duration}
 import scala.concurrent.{Await, Future}
 import scala.concurrent.duration.{Duration, FiniteDuration}
+import scala.util.Random.shuffle
 
 
 object WeddingPlan extends App { //Wk 2
@@ -105,29 +106,29 @@ object WeddingPlan extends App { //Wk 2
   }
 
   //All the flavours, toppers and decorations as case objects at the top, there's only one instance of each so they are case objects not case classes
-    case object ProfitterolTower extends CakeOption {
-      val name = "Profiterole Tower"
-    }
+  case object ProfitterolTower extends CakeOption {
+    val name = "Profiterole Tower"
+  }
 
-    case object TwoTier extends CakeOption {
-      val name = "2 tier"
-    }
+  case object TwoTier extends CakeOption {
+    val name = "2 tier"
+  }
 
-    case object TraditionalThreeTier extends CakeOption {
-      val name = "Traditional 3 tier"
-    }
+  case object TraditionalThreeTier extends CakeOption {
+    val name = "Traditional 3 tier"
+  }
 
-    case object EdibleFlowers extends CakeOption {
-      val name = "Edible flowers"
-    }
+  case object EdibleFlowers extends CakeOption {
+    val name = "Edible flowers"
+  }
 
-    case object AcrylicButterflies extends CakeOption {
-      val name = "Acrylic Butterflies"
-    }
+  case object AcrylicButterflies extends CakeOption {
+    val name = "Acrylic Butterflies"
+  }
 
-    case object RicePaperFlowers extends CakeOption {
-      val name = "Rice paper flowers"
-    }
+  case object RicePaperFlowers extends CakeOption {
+    val name = "Rice paper flowers"
+  }
 
   case object Sprinkles extends CakeOption {
     val name = "Sprinkles"
@@ -146,28 +147,40 @@ object WeddingPlan extends App { //Wk 2
   }
 
   //contains list of all poss cake types, toppers and decorations
-    object CakeOption {
-      val cakeType: List[CakeOption] = List(ProfitterolTower, TwoTier, TraditionalThreeTier)
-      val toppers: List[CakeOption] = List(EdibleFlowers, AcrylicButterflies, RicePaperFlowers)
-      val decorations: List[CakeOption] = List(Sprinkles, FreshFruit, ChocolateBalls, ChocolateAndCream)
-    }
+  object CakeOption {
+    val cakeType: List[CakeOption] = List(ProfitterolTower, TwoTier, TraditionalThreeTier)
+    val toppers: List[CakeOption] = List(EdibleFlowers, AcrylicButterflies, RicePaperFlowers)
+    val decorations: List[CakeOption] = List(Sprinkles, FreshFruit, ChocolateBalls, ChocolateAndCream)
+  }
+
+  // Case class to represent a complete cake configuration
+  case class WeddingCakeOrder(
+                               flavour: CakeOption,
+                               topper: CakeOption,
+                               decoration: CakeOption
+                             )
 
 
-// Case class to represent a complete cake configuration
-case class WeddingCakeOrder (
-                        flavour: CakeOption,
-                        topper: CakeOption,
-                        decoration: CakeOption
-                      )
+  println(CakeOption.toppers)
 
-  //Let's print something !
+  val customCakeOrder = WeddingCakeOrder(TwoTier, EdibleFlowers, Sprinkles)
+  println(s"The wedding cake will be a ${customCakeOrder.flavour.name} with ${customCakeOrder.topper.name} and ${customCakeOrder.decoration.name}.")
+
+  def randomCake() = {
+    WeddingCakeOrder(
+      shuffle(CakeOption.cakeType).head,
+      shuffle(CakeOption.toppers).head,
+      shuffle(CakeOption.decorations).head
+    )
+  }
+  println(randomCake())
 
 
-//  def description: String =
-//    s"${flavour.name} with ${topper.name} covered in ${decoration.name} for the wedding of May & Tom!"
+  //  def description: String =
+  //    s"${flavour.name} with ${topper.name} covered in ${decoration.name} for the wedding of May & Tom!"
 
 
-  /** Refactored to the above to make it more type safety */
+  /** Refactored to the above as per April's advise to make it more type safety */
   //  val cakeFlavour = List("Profitterol Tower", "2 tier", "traditional 3 tier")
 //  val cakeTopper = List("Edible flowers", "Acrylic Butterflies", "Rice paper flowers")
 //  val cakeDecoration = List("Sprinkles", "Fresh fruit", "chocolate balls", "chocolate and cream")
