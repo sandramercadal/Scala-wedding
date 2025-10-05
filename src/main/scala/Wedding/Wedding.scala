@@ -286,7 +286,7 @@ object WeddingPlan extends App { //Wk 2
 println(s"The veg guests are: ${vegeterianGuests}")
 
 
-
+/** a regular class with 5x properties. Created a new instance with 'new'. Accessed the properties with .name and .weddingBudget */
   class WeddingPlanner( //Wk2
                         val name: String,
                         val company: String,
@@ -297,8 +297,20 @@ println(s"The veg guests are: ${vegeterianGuests}")
   val weddingPlanner = new WeddingPlanner("Crimson Gretal", "JB & Co", "07778900900", "Tradional Elegance", 12000.0)
   println(s"The wedding planners name is ${weddingPlanner.name}.")
   println(s"The wedding planners budget is £${weddingPlanner.weddingBudget}.")
-
-
+/** Since WeddingPlanner is immutable data (just storing information), it's a perfect candidate for a case class :
+ * case class WeddingPlanner(
+                             * name: String,              // No 'val' needed - case class adds it automatically
+                             * company: String,
+                             * contactNumber: String,
+                             * chosenDesign: String,
+                             * weddingBudget: Double
+                             * )
+ *
+ * // No 'new' needed!
+ * val weddingPlanner = WeddingPlanner("Crimson Gretal", "JB & Co", "07778900900", "Traditional Elegance", 12000.0)
+ * println(s"The wedding planner's name is ${weddingPlanner.name}.")
+ * println(s"The wedding planner's budget is £${weddingPlanner.weddingBudget}.")
+ * */
 
 
   /** Welcome visitors from Wales, England and Spain to the reception in their language */
