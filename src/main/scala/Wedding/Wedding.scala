@@ -100,21 +100,31 @@ object WeddingPlan extends App { //Wk 2
   tableNames += (11 -> "Pimlico")
   println(tableNames) //shows 11 table names now not 10
 
+//sealed trait -> case classes/objects that extend it
+//Sealed trait: defines a closed set of types (anything in CakeOption must have a name)
+//Compiler enforces exhaustive pattern matching
 
   sealed trait CakeOption {
     def name: String
   }
 
+  //3x specific sealed traits for each category
+  sealed trait CakeType extends CakeOption
+  sealed trait Topper extends CakeOption
+  sealed trait Decoration extends CakeOption
+
+  //CASE OBJECTS : The actual options = A singleton (only ONE instance) we don't need multiple instances
+  //Great for enums
   //All the flavours, toppers and decorations as case objects at the top, there's only one instance of each so they are case objects not case classes
-  case object ProfitterolTower extends CakeOption {
+  case object ProfitterolTower extends CakeType {
     val name = "Profiterole Tower"
   }
 
-  case object TwoTier extends CakeOption {
+  case object TwoTier extends CakeType {
     val name = "2 tier"
   }
 
-  case object TraditionalThreeTier extends CakeOption {
+  case object TraditionalThreeTier extends CakeType {
     val name = "Traditional 3 tier"
   }
 
@@ -122,38 +132,40 @@ object WeddingPlan extends App { //Wk 2
     val name = "Edible flowers"
   }
 
-  case object AcrylicButterflies extends CakeOption {
+  case object AcrylicButterflies extends Topper {
     val name = "Acrylic Butterflies"
   }
 
-  case object RicePaperFlowers extends CakeOption {
+  case object RicePaperFlowers extends Topper {
     val name = "Rice paper flowers"
   }
 
-  case object Sprinkles extends CakeOption {
+  case object Sprinkles extends Decoration {
     val name = "Sprinkles"
   }
 
-  case object FreshFruit extends CakeOption {
+  case object FreshFruit extends Decoration {
     val name = "Fresh fruit"
   }
 
-  case object ChocolateBalls extends CakeOption {
+  case object ChocolateBalls extends Decoration {
     val name = "chocolate balls"
   }
 
-  case object ChocolateAndCream extends CakeOption {
+  case object ChocolateAndCream extends Decoration {
     val name = "chocolate and cream"
   }
 
   //contains list of all poss cake types, toppers and decorations
+  //Provides an organised collection like a catalogue
   object CakeOption {
-    val cakeType: List[CakeOption] = List(ProfitterolTower, TwoTier, TraditionalThreeTier)
+    val cakeTypes: List[CakeOption] = List(ProfitterolTower, TwoTier, TraditionalThreeTier)
     val toppers: List[CakeOption] = List(EdibleFlowers, AcrylicButterflies, RicePaperFlowers)
     val decorations: List[CakeOption] = List(Sprinkles, FreshFruit, ChocolateBalls, ChocolateAndCream)
   }
 
-  // Case class to represent a complete cake configuration
+  // Case class to represent a specific complete cake configuration/order
+  //Why case class here (not case object)? because each customer order is different - there will be many instances
   case class WeddingCakeOrder(
                                flavour: CakeOption,
                                topper: CakeOption,
@@ -168,17 +180,12 @@ object WeddingPlan extends App { //Wk 2
 
   def randomCake() = {
     WeddingCakeOrder(
-      shuffle(CakeOption.cakeType).head,
+      shuffle(CakeOption.cakeTypes).head,
       shuffle(CakeOption.toppers).head,
       shuffle(CakeOption.decorations).head
     )
   }
   println(randomCake())
-
-
-  //  def description: String =
-  //    s"${flavour.name} with ${topper.name} covered in ${decoration.name} for the wedding of May & Tom!"
-
 
   /** Refactored to the above as per April's advise to make it more type safety */
   //  val cakeFlavour = List("Profitterol Tower", "2 tier", "traditional 3 tier")
