@@ -191,6 +191,7 @@ object WeddingPlan extends App { //Wk 2
   //  val cakeFlavour = List("Profitterol Tower", "2 tier", "traditional 3 tier")
 //  val cakeTopper = List("Edible flowers", "Acrylic Butterflies", "Rice paper flowers")
 //  val cakeDecoration = List("Sprinkles", "Fresh fruit", "chocolate balls", "chocolate and cream")
+//  val cakeDecoration = List("Sprinkles", "Fresh fruit", "chocolate balls", "chocolate and cream")
 //
 //  val cakePlanning = for { //for comp Wk 1
 //    style <- cakeFlavour
@@ -248,13 +249,18 @@ object WeddingPlan extends App { //Wk 2
   val secondChoiceVenue = Venue.createVenue("Cranburg Castle", "6a Pine Street, Cambridge", 550)
   println(secondChoiceVenue)
 
-
-  case class Reception(venue: Venue, mealOption: List[String]) //Wk 2
+/** Updating the mealOption to be a tuple
+  case class Reception(venue: Venue, mealOption: List[String]) //Wk 2*/
+  case class Reception(venue: Venue, mealOptions: (List[String], List[String], List[String]) //Wk 2
+                      )
 
   //Person class of anyone involved in wedding
   case class Person(name: String, email: String, phoneNumber: Option[String] = None) //Wk 3
 
-  case class Guest(person: Person, plusOne: Option[Guest] = None, dietaryRequirements: List[String] = List())
+/** Updating the mealOption to be a tuple so adding mealChoice for starter, main and dessert */
+  case class Guest(person: Person, plusOne: Option[Guest] = None, dietaryRequirements: List[String] = List(), mealChoice: Option[(String, String, String)] = None)
+
+
 
   //Instance of a bride and groom
   val bride: Person = Person("May Green", "May@me.com")
@@ -264,23 +270,46 @@ object WeddingPlan extends App { //Wk 2
   println(aboutBride)
 
   //Create some guests
-  val tod = Guest(person = Person("Tod Maine", "tod@btinternet.com", Some("07790116679")), plusOne = Some(annie), dietaryRequirements = List())
-  val sam = Guest(person = Person("Sam Heart", "sb2340@yahoo.com", Some("079901161123")), plusOne = Some(tim), dietaryRequirements = List("Vegan"))
+  val tod = Guest(person = Person("Tod Maine", "tod@btinternet.com",
+    Some("07790116679")),
+    plusOne = Some(annie),
+    dietaryRequirements = List(),
+    mealChoice = Some(("Fish Veloute", "Sirloin", "Pavlova"))
+  )
+
+  val sam = Guest(person = Person("Sam Heart", "sb2340@yahoo.com",
+    Some("079901161123")),
+    plusOne = Some(tim),
+    dietaryRequirements = List("Vegan"),
+    mealChoice = None //yet to choose!
+  )
 
   //Create some plus One guests - we don't always need guest phone numbers.
-  val annie = Guest(person = Person("Annie Plum", "annie@example.com"), dietaryRequirements = List("Vegeterian"))
-  val tim = Guest(person = Person("Tim Bolt", "tb@yahoo.com"), dietaryRequirements = List("None"))
+  val annie = Guest(person = Person("Annie Plum", "annie@example.com"),
+    dietaryRequirements = List("Vegetarian"),
+    mealChoice = Some(("Veg Veloute", "Veg bake", "Pavlova")))
+
+  val tim = Guest(person = Person("Tim Bolt", "tb@yahoo.com"),
+    dietaryRequirements = List("None"),
+    mealChoice = Some(("Fish Veloute", "Sirloin", "Pavlova")))
+
   println(tod)
   println(tim)
 
   val guests = List(tod, sam, annie, tim)
+
+  /** Guest meal choices */
+  //guests.foreach()
+
+
+
   //Wk 4
   //  val VegeterianGuests = Guest.filter(guest => guest.dietaryRequirements.contains("Vegeterian"))
   //println("Vegeterian Guest names:")
   // vegeterianGuests.foreach(guest => println(guest.person.name)
 
   val vegeterianGuests = for {
-    guests <- guests if guests.dietaryRequirements.contains ("Vegeterian")
+    guests <- guests if guests.dietaryRequirements.contains ("Vegetarian")
   }
   yield guests
 println(s"The veg guests are: ${vegeterianGuests}")
@@ -299,13 +328,13 @@ println(s"The veg guests are: ${vegeterianGuests}")
   println(s"The wedding planners budget is £${weddingPlanner.weddingBudget}.")
 /** Since WeddingPlanner is immutable data (just storing information), it's a perfect candidate for a case class :
  * case class WeddingPlanner(
-                             * name: String,              // No 'val' needed - case class adds it automatically
+                             * name: String,    // No 'val' needed - case class adds it automatically
                              * company: String,
                              * contactNumber: String,
                              * chosenDesign: String,
                              * weddingBudget: Double
                              * )
- *
+
  * // No 'new' needed!
  * val weddingPlanner = WeddingPlanner("Crimson Gretal", "JB & Co", "07778900900", "Traditional Elegance", 12000.0)
  * println(s"The wedding planner's name is ${weddingPlanner.name}.")
