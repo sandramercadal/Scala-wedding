@@ -113,7 +113,7 @@ object WeddingPlan extends App { //Wk 2
   sealed trait Topper extends CakeOption
   sealed trait Decoration extends CakeOption
 
-  //CASE OBJECTS : The actual options = A singleton (only ONE instance) we don't need multiple instances
+  //CASE OBJECTS : Here are the actual options = A singleton (only ONE instance) we don't need multiple instances
   //Great for enums
   //All the flavours, toppers and decorations as case objects at the top, there's only one instance of each so they are case objects not case classes
   case object ProfitterolTower extends CakeType {
@@ -187,6 +187,8 @@ object WeddingPlan extends App { //Wk 2
   }
   println(randomCake())
 
+  /** Can I add a trait to this example?? */
+
   /** Refactored to the above as per April's advise to make it more type safety */
   //  val cakeFlavour = List("Profitterol Tower", "2 tier", "traditional 3 tier")
 //  val cakeTopper = List("Edible flowers", "Acrylic Butterflies", "Rice paper flowers")
@@ -258,8 +260,39 @@ object WeddingPlan extends App { //Wk 2
   case class Person(name: String, email: String, phoneNumber: Option[String] = None) //Wk 3
 
 /** Updating the mealOption to be a tuple so adding mealChoice for starter, main and dessert */
-  case class Guest(person: Person, plusOne: Option[Guest] = None, dietaryRequirements: List[String] = List(), mealChoice: Option[(String, String, String)] = None)
+  case class Guest(
+                    person: Person, 
+                    plusOne: Option[Guest] = None, 
+                    dietaryRequirements: List[DietaryRequirement] = List(), 
+                    mealChoice: Option[(String, String, String)] = None
+                  )
 
+/** Updating this code to be type safe for the dietaryRequirements: List[String]
+ *   case class Guest(person: Person, plusOne: Option[Guest] = None, dietaryRequirements: List[String] = List(), mealChoice: Option[(String, String, String)] = None)*/
+
+  sealed trait DietaryRequirement {
+  def dietaryName: String
+}
+  // Case objects for each dietary requirement
+  case object Vegetarian extends DietaryRequirement {
+    val dietaryName = "Vegetarian"
+  }
+
+  case object NoDietaryRequirement extends DietaryRequirement {
+    val dietaryName = "None"
+  }
+
+  case object Vegan extends DietaryRequirement {
+    val dietaryName = "Vegan"
+  }
+
+  object DietaryRequirement {
+    val allDietaryRequirement: List[DietaryRequirement] = List(
+      Vegetarian, 
+      NoDietaryRequirement,
+      Vegan
+    )
+  }
 
 
   //Instance of a bride and groom
@@ -273,24 +306,24 @@ object WeddingPlan extends App { //Wk 2
   val tod = Guest(person = Person("Tod Maine", "tod@btinternet.com",
     Some("07790116679")),
     plusOne = Some(annie),
-    dietaryRequirements = List(),
+    dietaryRequirements = List(NoDietaryRequirement),
     mealChoice = Some(("Fish Veloute", "Sirloin", "Pavlova"))
   )
 
   val sam = Guest(person = Person("Sam Heart", "sb2340@yahoo.com",
     Some("079901161123")),
     plusOne = Some(tim),
-    dietaryRequirements = List("Vegan"),
+    dietaryRequirements = List(Vegan),
     mealChoice = None //yet to choose!
   )
 
   //Create some plus One guests - we don't always need guest phone numbers.
   val annie = Guest(person = Person("Annie Plum", "annie@example.com"),
-    dietaryRequirements = List("Vegetarian"),
+    dietaryRequirements = List(Vegetarian),
     mealChoice = Some(("Veg Veloute", "Veg bake", "Pavlova")))
 
   val tim = Guest(person = Person("Tim Bolt", "tb@yahoo.com"),
-    dietaryRequirements = List("None"),
+    dietaryRequirements = List(NoDietaryRequirement),
     mealChoice = Some(("Fish Veloute", "Sirloin", "Pavlova")))
 
   println(tod)
